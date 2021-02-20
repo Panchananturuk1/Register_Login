@@ -103,32 +103,97 @@ body {
 </head>
 <body>
 <div class="signup-form">
-    <form action="/examples/actions/confirmation.php" method="post">
+    <form action="Register.php" method="post" enctype="multipart/form-data">
 		<h2>Register</h2>
-		<p class="hint-text">Create your account. It's free and only takes a minute.</p>
+		
         <div class="form-group">
-			<div class="row">
-				<div class="col"><input type="text" class="form-control" name="first_name" placeholder="First Name" required="required"></div>
-				<div class="col"><input type="text" class="form-control" name="last_name" placeholder="Last Name" required="required"></div>
-			</div>        	
-        </div>
+        <div>
+            <label for="cv">Upload your cv </label> 
+            <input type="file" name="cv" id="image" />
+         </div><br />
+			<div class="row">           
+				<div class="col"><input type="text" class="form-control" name="Full_Name" placeholder="Full  Name" required="required"></div>				
+			</div>     
+            <div><br />
+            <label for="gen">Gender: </label>
+                <label for="male">Male</label>
+                <input type="radio" value="Male" name="gender"> 
+                <label for="Female">Female</label>
+                <input type="radio"  value="Female"  name="gender">
+         </div>   	<br />
+        
+    	
+
         <div class="form-group">
         	<input type="email" class="form-control" name="email" placeholder="Email" required="required">
+            		
         </div>
-		<div class="form-group">
-            <input type="password" class="form-control" name="password" placeholder="Password" required="required">
-        </div>
-		<div class="form-group">
-            <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required="required">
-        </div>        
+
         <div class="form-group">
-			<label class="form-check-label"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
-		</div>
-		<div class="form-group">
-            <button type="submit" class="btn btn-success btn-lg btn-block">Register Now</button>
+        <input type="text" class="form-control" name="Address" placeholder="Address.." required="required">	
         </div>
+
+        <div class="form-group">
+        <input type="number" class="form-control" name="Contact" placeholder="Contact Number.." required="required">	
+        </div>
+
+		<div class="form-group">
+            <input type="password" class="form-control" name="Password" placeholder="Password" required="required">
+        </div>
+		     
+     
+		<div class="form-group">
+            <button type="submit" class="btn btn-success btn-lg btn-block" name="submit">Register Now</button>
+        </div>
+
+        
     </form>
-	<div class="text-center">Already have an account? <a href="#">Sign in</a></div>
+	<div class="text-center">Already have an account? <a href="Login.php">Sign in</a></div>
 </div>
+
+<?php
+
+    if(isset($_POST['submit']))
+    {
+
+   $cv = $_POST['cv'];
+    $Full_Name = $_POST['Full_Name'];
+    $Gender = $_POST['gender'];
+    $Email = $_POST['email'];
+    $Address = $_POST['Address'];
+    $Contact = $_POST['Contact'];
+    $Password = $_POST['Password'];
+
+    $con = mysqli_connect('localhost', 'root', '', 'Registration') or die(mysqli_error($con));
+
+   
+
+    if ($con->connect_error) {
+        die("Connection failed: " . $con->connect_error);
+        echo  '<script> alert("Connection Failed "); </script>';	
+      } else{
+
+        $ins = "INSERT INTO Register(cv,Full_Name,Gender,Email,Address,Contact,Password) VALUES ('$cv','$Full_Name','$Gender','$Email','$Address','$Contact','$Password')";
+
+        if ($con->query($ins) === TRUE) {
+            echo  '<script> alert(" New record created successfully "); </script>';
+        echo "New record created successfully";
+      } else {
+        echo "Error: " . $ins . "<br>" . $con->error;
+          echo  '<script> alert("Insertion Failed "); </script>';	
+      }
+
+      $con->close();
+
+
+      }
+
+    }
+?>
+
+
 </body>
+
+
 </html>
+

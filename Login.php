@@ -103,32 +103,65 @@ body {
 </head>
 <body>
 <div class="signup-form">
-    <form action="/examples/actions/confirmation.php" method="post">
-		<h2>Register</h2>
-		<p class="hint-text">Create your account. It's free and only takes a minute.</p>
+    <form action="Login.php" method="post">
+		<h2>Login</h2>
+
         <div class="form-group">
-			<div class="row">
-				<div class="col"><input type="text" class="form-control" name="first_name" placeholder="First Name" required="required"></div>
-				<div class="col"><input type="text" class="form-control" name="last_name" placeholder="Last Name" required="required"></div>
-			</div>        	
+        	<input type="email" class="form-control" name="email" placeholder="Email" required="required">        		
         </div>
-        <div class="form-group">
-        	<input type="email" class="form-control" name="email" placeholder="Email" required="required">
+
+		<div class="form-group">
+            <input type="password" class="form-control" name="Password" placeholder="Password" required="required">
         </div>
+		      
 		<div class="form-group">
-            <input type="password" class="form-control" name="password" placeholder="Password" required="required">
-        </div>
-		<div class="form-group">
-            <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required="required">
-        </div>        
-        <div class="form-group">
-			<label class="form-check-label"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
-		</div>
-		<div class="form-group">
-            <button type="submit" class="btn btn-success btn-lg btn-block">Register Now</button>
+            <button type="submit" class="btn btn-success btn-lg btn-block" name="submit">Sign in</button>
         </div>
     </form>
-	<div class="text-center">Already have an account? <a href="#">Sign in</a></div>
+	<div class="text-center">Dont have an account? Register<a href="Register.php">Register</a></div>
 </div>
+
+
+
+
+
+<?php
+
+if(isset($_POST['submit']))
+{
+
+$Email = $POST['email'];
+$Password = $POST['Password'];
+
+$con = mysqli_connect('localhost', 'root', '', 'Registration') or die(mysqli_error($con));
+
+
+if ($con->connect_error) {
+    die("Connection failed: " . $con->connect_error);
+    echo  '<script> alert("Connection Failed "); </script>';	
+  } 
+
+    $display = "SELECT * from Reister WHERE Email='$Email' AND Password='$Password' ";
+    $result = mysqli_query($con, $display) or die(mysqli_error($con));
+
+        $row = mysqli_fetch_assoc($result);
+
+    if($row['Email'] == $email && $row['Password'] == $Password)
+    {
+        session_start();
+        echo  '<script> alert("YOUR CREDENTIAL IS MATCHING "); </script>';	
+    } else{
+
+        echo  '<script> alert("YOUR CREDENTIAL IS NOT MATCHING "); </script>';	
+    }
+
+  
+}
+
+
+?>
+
+
 </body>
+
 </html>
