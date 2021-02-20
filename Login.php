@@ -130,8 +130,8 @@ body {
 if(isset($_POST['submit']))
 {
 
-$Email = $POST['email'];
-$Password = $POST['Password'];
+$Email = $_POST['email'];
+$Password = $_POST['Password'];
 
 $con = mysqli_connect('localhost', 'root', '', 'Registration') or die(mysqli_error($con));
 
@@ -141,12 +141,12 @@ if ($con->connect_error) {
     echo  '<script> alert("Connection Failed "); </script>';	
   } 
 
-    $display = "SELECT * from Reister WHERE Email='$Email' AND Password='$Password' ";
+    $display = "SELECT * from Register WHERE Email='$Email' AND Password='$Password' ";
     $result = mysqli_query($con, $display) or die(mysqli_error($con));
 
         $row = mysqli_fetch_assoc($result);
 
-    if($row['Email'] == $email && $row['Password'] == $Password)
+    if($row['Email'] == $Email && $row['Password'] == $Password)
     {
         session_start();
         echo  '<script> alert("YOUR CREDENTIAL IS MATCHING "); </script>';	
